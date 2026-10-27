@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="乔嘉美的设计作品集：无人驾驶出行体验、车队运营平台、AI 影游社区、多角色协同平台与产品设计。">
+<title>乔嘉美 · 设计作品集 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --base:#0A0C0F;--panel:#141820;--panel-2:#0f1218;--line:#252B36;--line-soft:#1c2230;
+    --ink:#EAEEF5;--ink-2:#9AA4B2;--ink-3:#5b6675;--blue:#2F6BFF;--blue-soft:#5b8bff;
+    --mono:'JetBrains Mono',monospace;--disp:'Archivo','Noto Sans SC',sans-serif;--body:'Noto Sans SC','Archivo',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--base);color:var(--ink);font-family:'Poppins',var(--body);font-weight:400;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:#fff;color:#0A0C0F}
+  a{color:inherit;text-decoration:none}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:20px 6vw;backdrop-filter:blur(10px);background:linear-gradient(180deg,rgba(10,12,15,.7),rgba(10,12,15,0));transition:opacity .5s;opacity:0}
+  nav.show{opacity:1}
+  nav .brand{font-family:'Poppins',var(--disp);font-weight:800;letter-spacing:.18em;font-size:13px}
+  nav .brand b{color:var(--ink-2)}
+  nav .links a{font-family:'Poppins',var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.12em;margin-left:24px;transition:.2s}
+  nav .links a:hover{color:var(--ink)}
+  @media(max-width:680px){nav .links{display:none}}
+
+  .cover{position:relative;height:100vh;width:100%;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  #dots{position:absolute;inset:0;z-index:0}
+  .cover .vignette{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 70% 70% at 50% 60%,transparent 30%,var(--base) 100%)}
+  .cover .top{position:absolute;top:8vh;left:0;right:0;text-align:center;z-index:2;font-family:'Poppins',var(--disp);font-weight:300;font-size:clamp(18px,2.4vw,26px);letter-spacing:.04em;color:var(--ink-2);opacity:0;animation:fade 1.2s .3s forwards}
+  .cover .title{position:relative;z-index:2;text-align:center}
+  .cover .title h1{font-family:'Poppins',var(--disp);font-weight:300;font-size:clamp(46px,11vw,150px);letter-spacing:clamp(.04em,1.2vw,.16em);line-height:1;color:#fff;white-space:nowrap}
+  .cover .title h1 span{display:inline-block;opacity:0;transform:translateY(28px);animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards}
+  .cover .sub{margin-top:26px;font-family:'Poppins',var(--mono);font-size:clamp(11px,1.4vw,14px);letter-spacing:.42em;color:var(--ink-3);text-transform:uppercase;opacity:0;animation:fade 1.4s 1.1s forwards}
+  .cover .year{position:absolute;bottom:8vh;left:0;right:0;text-align:center;z-index:2;font-family:'Poppins',var(--disp);font-weight:300;font-size:clamp(16px,2vw,22px);letter-spacing:.1em;color:var(--ink-2);opacity:0;animation:fade 1.2s 1.3s forwards}
+  .cover .scrolldown{position:absolute;bottom:2.4vh;left:50%;transform:translateX(-50%);z-index:3;font-family:'Poppins',var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-3);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fade 1.2s 1.6s forwards}
+  .cover .year{bottom:12vh}
+  .cover .scrolldown .bar{width:1px;height:34px;background:linear-gradient(var(--ink-3),transparent);animation:slide 1.8s infinite}
+  @keyframes rise{to{opacity:1;transform:none}}
+  @keyframes fade{to{opacity:1}}
+  @keyframes slide{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}50.1%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+  .intro{position:relative;z-index:1;padding:16vh 6vw 12vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+  #aboutgrid{position:absolute;inset:0;z-index:0;display:block;pointer-events:none}
+  .intro-inner{position:relative;z-index:1;max-width:1100px;margin:0 auto;width:100%}
+  .about-eyebrow{font-family:'Poppins',var(--mono);font-size:11px;letter-spacing:.32em;color:var(--ink-3);text-transform:uppercase;margin-bottom:40px}
+  .about-name{font-family:'Poppins',var(--disp);font-weight:300;line-height:1;font-size:clamp(56px,11vw,150px);letter-spacing:.02em;color:#fff;display:flex;align-items:baseline;flex-wrap:wrap;gap:0 .35em}
+  .about-name .en{font-family:'Poppins',var(--disp);font-weight:300;font-size:.28em;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase}
+  .about-lead{font-size:clamp(16px,1.9vw,21px);color:var(--ink-2);max-width:640px;margin-top:48px;font-weight:300;line-height:1.85}
+  .about-lead em{font-style:normal;color:#fff;font-weight:400}
+  .about-meta{margin-top:64px;max-width:560px;border-top:1px solid var(--line-soft)}
+  .about-meta .meta-row{display:flex;gap:28px;padding:18px 2px;border-bottom:1px solid var(--line-soft)}
+  .about-meta .ml{font-family:'Poppins',var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase;min-width:64px;padding-top:3px}
+  .about-meta .mv{font-size:15px;color:var(--ink);font-weight:300}
+  .about-skills{margin-top:46px;font-family:'Poppins',var(--mono);font-size:12.5px;letter-spacing:.04em;color:var(--ink-2);line-height:2.2;max-width:760px}
+  .about-skills span{color:var(--ink-3);margin:0 6px}
+
+  /* collapsible whole-block About */
+  .about-fold{overflow:hidden;height:0;opacity:0;transition:height .7s cubic-bezier(.2,.7,.2,1),opacity .55s ease}
+  .about-fold.open{opacity:1}
+  /* trigger row — the only thing visible when collapsed */
+  .about-trigger{display:inline-flex;align-items:center;gap:16px;background:none;border:none;cursor:pointer;padding:0;
+    font-family:'Poppins',var(--disp);font-weight:300;color:var(--ink);transition:color .3s;
+    font-size:clamp(28px,5vw,56px);letter-spacing:.02em;line-height:1}
+  .about-trigger .at-en{font-family:'Poppins',var(--disp);font-weight:300;color:var(--ink-3);font-size:.42em;letter-spacing:.12em}
+  .about-trigger:hover{color:#fff}
+  .about-eyebrow{margin-top:8px}
+
+  /* ===== split-scroll project directory ===== */
+  .work{position:relative;z-index:1;padding:0 0 0 0;max-width:none;margin:0}
+  .work .sec-head{max-width:1480px;margin:0 auto 0;padding:80px 6vw 22px}
+  .dirscroll{position:relative}
+  .dirstage{display:grid;grid-template-columns:1fr 1fr;gap:0;max-width:1480px;margin:0 auto;padding:0 6vw;height:100%}
+  /* left: pinned text column */
+  .dirleft{position:relative;height:100%}
+  .dirleft .sticky{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;padding-right:5%}
+  .ditem{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding-right:5%;opacity:0;transform:translateY(24px);transition:opacity .45s ease,transform .45s ease;pointer-events:none;visibility:hidden}
+  .ditem.on{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition:opacity .55s ease .12s,transform .55s ease .12s}
+  .ditem .dn{font-family:'Poppins',var(--disp);font-weight:900;font-size:clamp(60px,8vw,110px);line-height:.85;color:transparent;-webkit-text-stroke:1.5px var(--line);letter-spacing:-.02em;margin-bottom:18px}
+  .ditem.on .dn{-webkit-text-stroke-color:var(--ink-3)}
+  .ditem .den{font-family:'Poppins',var(--disp);font-weight:800;font-size:clamp(26px,3.4vw,44px);line-height:1.05;letter-spacing:-.01em;color:#fff}
+  .ditem .dzh{font-size:clamp(15px,1.7vw,18px);color:var(--ink-2);margin-top:14px;font-weight:400}
+  .ditem .dtag{font-family:'Poppins',var(--mono);font-size:11px;letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase;margin-top:10px}
+  .ditem .ddesc{font-size:14px;color:var(--ink-2);line-height:1.75;font-weight:300;margin-top:22px;max-width:420px}
+  .ditem .dlink{display:inline-flex;align-items:center;gap:10px;margin-top:30px;font-family:'Poppins',var(--mono);font-size:12px;letter-spacing:.08em;color:var(--ink);border:1px solid var(--line);border-radius:100px;padding:11px 20px;width:fit-content;transition:.3s;cursor:pointer}
+  .ditem .dlink:hover{background:#fff;color:var(--base);border-color:#fff}
+  .ditem .dlink.soon{color:var(--ink-3);cursor:default}
+  .ditem .dlink.soon:hover{background:transparent;color:var(--ink-3);border-color:var(--line)}
+  .ditem .dlink .ar{transition:transform .3s}
+  .ditem .dlink:hover .ar{transform:translateX(3px)}
+  /* right: pinned image stack with mask reveal */
+  .dirright{position:relative;height:100%}
+  .dirright .sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center}
+  .imgstack{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;box-shadow:0 40px 90px -40px rgba(0,0,0,.7)}
+  .imgwrap{position:absolute;inset:0;overflow:hidden;will-change:opacity,clip-path,transform}
+  .imgwrap img{width:100%;height:100%;object-fit:cover;will-change:transform}
+  .dprogress{position:absolute;left:6vw;right:6vw;bottom:34px;max-width:1480px;margin:0 auto;height:2px;background:var(--line-soft);z-index:5}
+  .dprogress i{position:absolute;left:0;top:0;height:100%;background:#fff;width:0;transition:width .3s}
+  @media(max-width:880px){
+    .dirstage{grid-template-columns:1fr}
+    .dirleft{display:none}
+    .dirright .sticky{height:auto;padding:30px 0}
+    .imgstack{aspect-ratio:16/9}
+    .dirscroll{padding:0 6vw}
+    .dmobile{display:block}
+  }
+  .dmobile{display:none}
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);flex-wrap:wrap;gap:12px}
+  .sec-head h2{font-family:'Poppins',var(--disp);font-weight:800;font-size:clamp(22px,3vw,32px);letter-spacing:.02em}
+  .sec-head h2 .zh{font-family:'Poppins',var(--body);font-weight:700;color:var(--ink-2);font-size:.62em;margin-left:14px}
+  .sec-head .count{font-family:'Poppins',var(--mono);font-size:12px;color:var(--ink-3);letter-spacing:.1em}
+
+  /* ===== gallery entry (after the project directory) — directory-style rows ===== */
+  .gallery-entry{position:relative;z-index:1;max-width:1480px;margin:0 auto;padding:clamp(56px,8vh,90px) 6vw 30px}
+  .gallery-entry .ge-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:12px;
+    border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:8px}
+  .gallery-entry .ge-head h2{font-family:'Poppins',var(--disp);font-weight:800;font-size:clamp(20px,2.6vw,28px);letter-spacing:.02em}
+  .gallery-entry .ge-head h2 .zh{font-family:'Poppins',var(--body);font-weight:700;color:var(--ink-2);font-size:.62em;margin-left:14px}
+  .gallery-entry .ge-head .ge-note{font-family:'Poppins',var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.1em}
+  .ge-rows{display:flex;flex-direction:column}
+  .ge-row{display:flex;align-items:center;gap:clamp(20px,4vw,52px);padding:30px 4px;border-bottom:1px solid var(--line-soft);transition:padding-left .35s}
+  .ge-row:hover{padding-left:14px}
+  .ge-row .ge-n{font-family:'Poppins',var(--disp);font-weight:900;font-size:clamp(40px,6vw,80px);line-height:.85;color:transparent;
+    -webkit-text-stroke:1.5px var(--line);letter-spacing:-.02em;flex:none;transition:-webkit-text-stroke-color .35s,color .35s}
+  .ge-row:hover .ge-n{-webkit-text-stroke-color:var(--ink-3)}
+  .ge-body{flex:1;min-width:0}
+  .ge-row .ge-title{font-family:'Poppins',var(--disp);font-weight:800;font-size:clamp(22px,2.8vw,34px);line-height:1.05;letter-spacing:-.01em;color:#fff}
+  .ge-row .ge-zh{font-size:clamp(13px,1.5vw,16px);color:var(--ink-2);margin-top:8px;font-weight:400}
+  .ge-row .ge-zh .ge-klabel{font-family:'Poppins',var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-right:12px}
+  .ge-row .ge-go{flex:none;display:inline-flex;align-items:center;gap:9px;font-family:'Poppins',var(--mono);font-size:12px;letter-spacing:.08em;color:var(--ink-3);transition:color .3s}
+  .ge-row:hover .ge-go{color:#fff}
+  .ge-row .ge-go .ar{transition:transform .35s}
+  .ge-row:hover .ge-go .ar{transform:translateX(5px)}
+  @media(max-width:680px){
+    .ge-row{gap:16px}
+    .ge-row .ge-go span:not(.ar){display:none}
+  }
+
+  footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:50px 6vw;max-width:1480px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px}
+  footer .ct a{font-family:'Poppins',var(--mono);font-size:13px;color:var(--ink-2);margin-right:22px;transition:.2s}
+  footer .ct a:hover{color:#fff}
+  footer .cr{font-family:'Poppins',var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.08em}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    .reveal,.cover .title h1 span,.cover .top,.cover .sub,.cover .year,.cover .scrolldown{opacity:1!important;transform:none!important;animation:none!important}
+    *{animation:none!important}
+  }
+
+  :focus-visible{outline:2px solid var(--blue-soft);outline-offset:5px}
+  #work,#about,#gallery{scroll-margin-top:70px}
+  .project-index{max-width:1480px;margin:0 auto;padding:22px 6vw 0;display:flex;flex-wrap:wrap;gap:12px 22px}
+  .project-index a{font-size:11px;font-family:'Poppins',var(--mono);color:var(--ink-2);transition:color .2s}
+  .project-index a:hover{color:#fff}
+  .project-index a span{color:var(--ink-3);margin-right:6px}
+  @media(max-width:880px){
+    .dirstage,.dprogress{display:none}
+    .dmobile{display:block}
+    .dirscroll{height:auto!important;padding-top:30px}
+    .project-index{gap:12px 18px}
+    nav .links{display:flex}nav .links a{margin-left:14px;font-size:10px}
+    nav .links a[href="#about"],nav .links a[href="mailto:1336735725@qq.com"]{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none}}
+</style>
+<link rel="stylesheet" href="project-covers.css"><link rel="stylesheet" href="particle-cover.css"><link rel="stylesheet" href="poppins.css"></head>
+<body>
+
+<nav id="nav">
+  <div class="brand">QIAO<b>.</b>JIAMEI</div>
+  <div class="links">
+    <a href="#about">ABOUT</a>
+    <a href="#work">WORK</a>
+    <a href="#gallery">GALLERY</a>
+    <a href="mailto:1336735725@qq.com">CONTACT</a>
+  </div>
+</nav>
+
+<section class="cover">
+  <canvas id="dots"></canvas>
+  <div class="vignette"></div>
+  <div class="top">Design</div>
+  <div class="title">
+    <h1 id="bigtitle"></h1>
+    <div class="sub">乔嘉美 · Jiamei Qiao</div>
+  </div>
+  <div class="year">2026</div>
+  <a class="scrolldown" href="#about">SCROLL<span class="bar"></span></a>
+</section>
+
+<section class="intro" id="about">
+  <canvas id="aboutgrid"></canvas>
+  <div class="intro-inner">
+  <button class="about-trigger reveal" id="aboutTrigger" aria-expanded="false" aria-controls="aboutFold">
+    <span class="at-label">个人介绍 <span class="at-en">/ About</span></span>
+  </button>
+
+  <div class="about-fold" id="aboutFold">
+  <div class="about-eyebrow">交互与体验设计师 · UX &amp; Interaction Designer</div>
+  <h2 class="about-name">乔嘉美<span class="en">Jiamei&nbsp;Qiao</span></h2>
+  <p class="about-lead">
+    关注 <em>复杂场景中的交互与体验设计</em>。从无人驾驶出行、车队运营到 AI 影游社区，
+    通过用户研究、信息架构与界面设计，让信息更清晰、操作更连贯、协作更顺畅。
+  </p>
+
+  <div class="about-meta">
+    <div class="meta-row"><span class="ml">教育</span><span class="mv">东南大学 · 工业设计工程 硕士在读</span></div>
+    <div class="meta-row"><span class="ml">方向</span><span class="mv">智能出行 · B 端体验 · AI 产品设计</span></div>
+    <div class="meta-row"><span class="ml">小红书</span><span class="mv">独立绘画账号 · 5,000+ 关注</span></div>
+  </div>
+  </div>
+  </div>
+</section>
+
+<section class="work" id="work"><div class="sec-head"><h2>Personal Projects<span class="zh">个人项目</span></h2><div class="count">07 PROJECTS</div></div><div class="project-cover-grid"><a class="project-cover" href="ropotaxi.html#page-1" aria-label="查看项目：ROPOTAXI · 无人驾驶出行体验设计"><div class="project-cover-image"><img src="assets/covers/ropotaxi.webp" alt="" width="1440" height="810" loading="lazy" decoding="async"></div><div class="project-cover-meta"><span class="project-cover-number">01</span><div><h3>ROPOTAXI</h3><p>无人驾驶出行体验设计</p></div><span class="project-cover-arrow" aria-hidden="true">↗</span></div></a><a class="project-cover" href="ropofleet.html#page-1" aria-label="查看项目：ROPO Fleet · Robotaxi 车队管理与远程运营云平台"><div class="project-cover-image"><img src="assets/covers/ropofleet.webp" alt="" width="1440" height="810" loading="lazy" decoding="async"></div><div class="project-cover-meta"><span class="project-cover-number">02</span><div><h3>ROPO Fleet</h3><p>Robotaxi 车队管理与远程运营云平台</p></div><span class="project-cover-arrow" aria-hidden="true">↗</span></div></a><a class="project-cover" href="flicfic.html#page-1" aria-label="查看项目：FlicFic · AI 影游社区"><div class="project-cover-image"><img src="assets/covers/flicfic.webp" alt="" width="1440" height="810" loading="lazy" decoding="async"></div><div class="project-cover-meta"><span class="project-cover-number">03</span><div><h3>FlicFic</h3><p>AI 影游社区</p></div><span class="project-cover-arrow" aria-hidden="true">↗</span></div></a><a class="project-cover" href="aeroform.html#page-1" aria-label="查看项目：AEROFORM · 汽车设计生成与多角色协同平台"><div class="project-cover-image"><img src="assets/covers/aeroform.webp" alt="" width="1440" height="810" loading="lazy" decoding="async"></div><div class="project-cover-meta"><span class="project-cover-number">04</span><div><h3>AEROFORM</h3><p>汽车设计生成与多角色协同平台</p></div><span class="project-cover-arrow" aria-hidden="true">↗</span></div></a><a class="project-cover" href="standease.html#page-1" aria-label="查看项目：StandEase Chair · 起身辅助座椅"><div class="project-cover-image"><img src="assets/covers/standease.webp" alt="" width="1440" height="810" loading="lazy" decoding="async"></div><div class="project-cover-meta"><span class="project-cover-number">05</span><div><h3>StandEase Chair</h3><p>起身辅助座椅</p></div><span class="project-cover-arrow" aria-hidden="true">↗</span></div></a><a class="project-cover" href="vapo.html#page-1" aria-label="查看项目：Neck Support Eye Massager · 颈托式智能眼部按摩仪"><div class="project-cover-image"><img src="assets/covers/vapo.webp" alt="" width="1440" height="810" loading="lazy" decoding="async"></div><div class="project-cover-meta"><span class="project-cover-number">06</span><div><h3>Neck Support Eye Massager</h3><p>颈托式智能眼部按摩仪</p></div><span class="project-cover-arrow" aria-hidden="true">↗</span></div></a><a class="project-cover" href="other.html#page-1" aria-label="查看项目：Other Designs · 平面 · 文创 · 包装 · 绘画"><div class="project-cover-image"><img src="assets/covers/other.webp" alt="" width="1440" height="810" loading="lazy" decoding="async"></div><div class="project-cover-meta"><span class="project-cover-number">07</span><div><h3>Other Designs</h3><p>平面 · 文创 · 包装 · 绘画</p></div><span class="project-cover-arrow" aria-hidden="true">↗</span></div></a></div></section>
+
+<section class="gallery-entry reveal" id="gallery">
+  <div class="ge-head">
+    <h2>Gallery<span class="zh">个人画廊</span></h2>
+    <div class="ge-note">ILLUSTRATION · 3D</div>
+  </div>
+  <div class="ge-rows">
+    <a class="ge-row" href="gallery.html">
+      <div class="ge-n">G1</div>
+      <div class="ge-body">
+        <div class="ge-title">个人作品画廊</div>
+      </div>
+      <span class="ge-go">进入 <span class="ar">→</span></span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="ct">
+    <a href="mailto:1336735725@qq.com">1336735725@qq.com</a>
+    <a href="https://xhslink.com/m/4T4d17Jyf6" target="_blank" rel="noopener">小红书 ↗</a>
+  </div>
+  <div class="cr">© 2026 QIAO JIAMEI — DESIGNED &amp; BUILT BY HERSELF</div>
+</footer>
+
+<script src="portfolio-data.js"></script>
+<script>
+(function(){
+  const word="PORTFOLIO";const h=document.getElementById('bigtitle');
+  [...word].forEach((c,i)=>{const s=document.createElement('span');s.textContent=c;s.style.animationDelay=(0.25+i*0.06)+'s';h.appendChild(s)});
+})();
+
+/* about-section proximity scale grid */
+(function(){
+  const cv=document.getElementById('aboutgrid');if(!cv)return;
+  const ctx=cv.getContext('2d');const host=document.getElementById('about');
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  let W,H,DPR,cols,rows,pts=[];
+  const GAP=26,R=1.4,MAXR=5.8,RADIUS=160,PUSH=18;
+  let mx=-9999,my=-9999,active=false;
+  function build(){
+    DPR=Math.min(devicePixelRatio||1,2);
+    const w=host.clientWidth,h=host.clientHeight;
+    W=cv.width=w*DPR;H=cv.height=h*DPR;cv.style.width=w+'px';cv.style.height=h+'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    cols=Math.ceil(w/GAP)+1;rows=Math.ceil(h/GAP)+1;pts=[];
+    for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){pts.push({ox:x*GAP,oy:y*GAP,x:x*GAP,y:y*GAP,vx:0,vy:0,r:R})}
+  }
+  build();addEventListener('resize',build);addEventListener('load',build);setTimeout(build,400);
+  host.addEventListener('mousemove',e=>{const r=host.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;active=true});
+  host.addEventListener('mouseleave',()=>{active=false;mx=-9999;my=-9999});
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    for(const p of pts){
+      const dx=p.ox-mx,dy=p.oy-my,d=Math.hypot(dx,dy)||1;
+      let target=R,tx=p.ox,ty=p.oy;
+      if(active&&d<RADIUS){const t=1-d/RADIUS;target=R+(MAXR-R)*(t*t);const push=PUSH*(t*t);tx=p.ox+(dx/d)*push;ty=p.oy+(dy/d)*push}
+      p.vx=(p.vx+(tx-p.x)*0.12)*0.78;p.vy=(p.vy+(ty-p.y)*0.12)*0.78;p.x+=p.vx;p.y+=p.vy;
+      p.r+=(target-p.r)*0.18;
+      const lum=(p.r-R)/(MAXR-R),c=120+lum*135,a=0.10+lum*0.62;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba('+c+','+c+','+(c+10)+','+a+')';ctx.fill();
+    }
+    requestAnimationFrame(frame);
+  }
+  if(reduce){for(const p of pts){ctx.beginPath();ctx.arc(p.x,p.y,R,0,Math.PI*2);ctx.fillStyle='rgba(120,120,130,.12)';ctx.fill()}}else frame();
+})();
+
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>{nav.classList.toggle('show',scrollY>innerHeight*0.5)},{passive:true});
+
+/* about: expand / collapse whole block */
+(function(){
+  const btn=document.getElementById('aboutTrigger');
+  const fold=document.getElementById('aboutFold');
+  if(!btn||!fold)return;
+  let open=false;
+  btn.addEventListener('click',()=>{
+    open=!open;
+    btn.classList.toggle('open',open);
+    fold.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open);
+    if(open){
+      fold.style.height=fold.scrollHeight+'px';
+      // release to auto after transition so it reflows on resize
+      fold.addEventListener('transitionend',function te(e){
+        if(e.propertyName==='height'){fold.style.height='auto';fold.removeEventListener('transitionend',te);
+          dispatchEvent(new Event('resize'));}  // rebuild about grid at new height
+      });
+    }else{
+      fold.style.height=fold.scrollHeight+'px';  // from auto → fixed, then to 0
+      requestAnimationFrame(()=>{fold.style.height='0px'});
+      fold.addEventListener('transitionend',function te(e){
+        if(e.propertyName==='height'){fold.removeEventListener('transitionend',te);
+          dispatchEvent(new Event('resize'));}
+      });
+    }
+  });
+  addEventListener('resize',()=>{if(open&&fold.style.height!=='auto'&&fold.style.height!=='0px')fold.style.height='auto'});
+})();
+
+const projects = window.PORTFOLIO;
+
+
+
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.08,rootMargin:'0px 0px -5% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+setTimeout(()=>document.querySelectorAll('.reveal:not(.in)').forEach(el=>{const r=el.getBoundingClientRect();if(r.top<innerHeight*1.2)el.classList.add('in')}),1200);
+</script>
+<script src="particle-cover.js"></script>
+<script src="card-particles.js"></script>
+<script src="cursor-trail.js"></script>
+</body>
+</html>
