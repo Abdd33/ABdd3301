@@ -23,7 +23,7 @@
       ctx.clearRect(0,0,width,height);
       const radius = Math.min(width*.36,160);
       const glow = ctx.createRadialGradient(mx,my,0,mx,my,radius);
-      glow.addColorStop(0,'rgba(205,224,255,.14)'); glow.addColorStop(.45,'rgba(142,185,255,.05)'); glow.addColorStop(1,'rgba(142,185,255,0)');
+      glow.addColorStop(0,'rgba(235,235,235,.12)'); glow.addColorStop(.45,'rgba(190,190,190,.05)'); glow.addColorStop(1,'rgba(190,190,190,0)');
       ctx.fillStyle=glow;ctx.fillRect(0,0,width,height);
       points.forEach(p => {
         const x=p.x*width,y=p.y*height,dx=x-mx,dy=y-my,d=Math.hypot(dx,dy)||1;
@@ -31,9 +31,9 @@
         if(a<.006)return;
         const wave=Math.sin(time*2.2+p.phase), push=a*(12+wave*4);
         const px=x+dx/d*push-dy/d*a*6,py=y+dy/d*push+dx/d*a*6;
-        ctx.fillStyle=`rgba(224,237,255,${a*(.5+wave*.12)})`;
+        ctx.fillStyle=`rgba(240,240,240,${a*(.5+wave*.12)})`;
         ctx.beginPath();ctx.arc(px,py,p.size*(.65+a*.65),0,Math.PI*2);ctx.fill();
-        if(a>.55&&p.size>1.4){ctx.strokeStyle=`rgba(215,233,255,${a*.28})`;ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(px-3,py);ctx.lineTo(px+3,py);ctx.moveTo(px,py-3);ctx.lineTo(px,py+3);ctx.stroke();}
+        if(a>.55&&p.size>1.4){ctx.strokeStyle=`rgba(230,230,230,${a*.28})`;ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(px-3,py);ctx.lineTo(px+3,py);ctx.moveTo(px,py-3);ctx.lineTo(px,py+3);ctx.stroke();}
       });
       raf = requestAnimationFrame(draw);
     }

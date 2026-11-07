@@ -5,23 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="乔嘉美的设计作品集：无人驾驶出行体验、车队运营平台、AI 影游社区、多角色协同平台与产品设计。">
 <title>乔嘉美 · 设计作品集 2026</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23090909'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Arial' font-size='42' font-weight='700' fill='white'%3EQ%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --base:#0A0C0F;--panel:#141820;--panel-2:#0f1218;--line:#252B36;--line-soft:#1c2230;
-    --ink:#EAEEF5;--ink-2:#9AA4B2;--ink-3:#5b6675;--blue:#2F6BFF;--blue-soft:#5b8bff;
+    --base:#090909;--panel:#121212;--panel-2:#0e0e0e;--line:#292929;--line-soft:#1b1b1b;
+    --ink:#ededed;--ink-2:#a3a3a3;--ink-3:#656565;--blue:#ffffff;--blue-soft:#cfcfcf;
     --mono:'JetBrains Mono',monospace;--disp:'Archivo','Noto Sans SC',sans-serif;--body:'Noto Sans SC','Archivo',sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{background:var(--base);color:var(--ink);font-family:'Poppins',var(--body);font-weight:400;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  ::selection{background:#fff;color:#0A0C0F}
+  ::selection{background:#fff;color:#090909}
   a{color:inherit;text-decoration:none}
 
   nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
-    padding:20px 6vw;backdrop-filter:blur(10px);background:linear-gradient(180deg,rgba(10,12,15,.7),rgba(10,12,15,0));transition:opacity .5s;opacity:0}
+    padding:20px 6vw;backdrop-filter:blur(10px);background:linear-gradient(180deg,rgba(9,9,9,.7),rgba(9,9,9,0));transition:opacity .5s;opacity:0}
   nav.show{opacity:1}
   nav .brand{font-family:'Poppins',var(--disp);font-weight:800;letter-spacing:.18em;font-size:13px}
   nav .brand b{color:var(--ink-2)}
@@ -29,24 +30,36 @@
   nav .links a:hover{color:var(--ink)}
   @media(max-width:680px){nav .links{display:none}}
 
-  .cover{position:relative;height:100vh;width:100%;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center}
-  #dots{position:absolute;inset:0;z-index:0}
-  .cover .vignette{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 70% 70% at 50% 60%,transparent 30%,var(--base) 100%)}
-  .cover .top{position:absolute;top:8vh;left:0;right:0;text-align:center;z-index:2;font-family:'Poppins',var(--disp);font-weight:300;font-size:clamp(18px,2.4vw,26px);letter-spacing:.04em;color:var(--ink-2);opacity:0;animation:fade 1.2s .3s forwards}
-  .cover .title{position:relative;z-index:2;text-align:center}
-  .cover .title h1{font-family:'Poppins',var(--disp);font-weight:300;font-size:clamp(46px,11vw,150px);letter-spacing:clamp(.04em,1.2vw,.16em);line-height:1;color:#fff;white-space:nowrap}
+  .cover{position:relative;height:100vh;height:100svh;width:100%;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--base);isolation:isolate}
+  #sphere-cover{position:absolute;inset:0;z-index:0;display:block;width:100%;height:100%;cursor:crosshair;touch-action:pan-y;outline:none}
+  #sphere-cover:focus-visible{outline:1px solid #666;outline-offset:-8px}
+  .cover::before,.cover::after{content:"";position:absolute;left:0;right:0;bottom:0;z-index:1;pointer-events:none}
+  .cover::before{height:26vh;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);mask-image:linear-gradient(to bottom,transparent,rgba(0,0,0,.3) 38%,#000 100%)}
+  .cover::after{height:28vh;background:linear-gradient(to bottom,rgba(9,9,9,0),rgba(9,9,9,.08) 28%,rgba(9,9,9,.52) 66%,var(--base) 100%)}
+  .cover.scene-error{background:radial-gradient(circle at 50% 48%,#333 0,transparent 42%),var(--base)}
+  .cover.scene-error #sphere-cover{display:none}
+  .cover .vignette{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.18) 72%,rgba(0,0,0,.65) 115%)}
+  .cover .top{position:absolute;top:30px;left:6vw;right:6vw;text-align:left;z-index:2;font-family:'Poppins',var(--mono);font-weight:500;font-size:10px;letter-spacing:.24em;color:var(--ink-2);text-transform:uppercase;opacity:0;animation:fade 1.2s .3s forwards;pointer-events:none}
+  .cover .title{position:relative;z-index:2;text-align:center;mix-blend-mode:difference;transform:translateY(-1.5vh);pointer-events:none}
+  .cover .title h1{font-family:'Poppins',var(--disp);font-weight:500;font-size:clamp(52px,12.2vw,184px);letter-spacing:-.025em;line-height:.8;color:#fff;white-space:nowrap}
   .cover .title h1 span{display:inline-block;opacity:0;transform:translateY(28px);animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards}
-  .cover .sub{margin-top:26px;font-family:'Poppins',var(--mono);font-size:clamp(11px,1.4vw,14px);letter-spacing:.42em;color:var(--ink-3);text-transform:uppercase;opacity:0;animation:fade 1.4s 1.1s forwards}
-  .cover .year{position:absolute;bottom:8vh;left:0;right:0;text-align:center;z-index:2;font-family:'Poppins',var(--disp);font-weight:300;font-size:clamp(16px,2vw,22px);letter-spacing:.1em;color:var(--ink-2);opacity:0;animation:fade 1.2s 1.3s forwards}
-  .cover .scrolldown{position:absolute;bottom:2.4vh;left:50%;transform:translateX(-50%);z-index:3;font-family:'Poppins',var(--mono);font-size:10px;letter-spacing:.3em;color:var(--ink-3);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fade 1.2s 1.6s forwards}
-  .cover .year{bottom:12vh}
-  .cover .scrolldown .bar{width:1px;height:34px;background:linear-gradient(var(--ink-3),transparent);animation:slide 1.8s infinite}
+  .cover .sub{margin-top:clamp(24px,4vh,40px);font-family:'Poppins',var(--mono);font-size:clamp(11px,1vw,14px);letter-spacing:.08em;color:#fff;text-transform:none;opacity:0;animation:fade 1.4s 1.1s forwards}
+  .cover .year{position:absolute;right:6vw;bottom:30px;z-index:2;font-family:'Poppins',var(--mono);font-weight:400;font-size:10px;letter-spacing:.12em;color:var(--ink-2);opacity:0;animation:fade 1.2s 1.3s forwards;pointer-events:none}
+  .cover .scrolldown{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;font-family:'Poppins',var(--mono);font-size:9px;letter-spacing:.24em;color:var(--ink-2);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fade 1.2s 1.6s forwards}
+  .cover .scrolldown .bar{width:1px;height:26px;background:linear-gradient(var(--ink-2),transparent);animation:slide 1.8s infinite}
+  @media(max-width:680px){.cover .top{top:22px;left:20px}.cover .title h1{font-size:13.4vw;letter-spacing:-.025em}.cover .year{right:20px;bottom:22px}.cover .scrolldown{bottom:22px}.cover::before{height:22vh;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}.cover::after{height:24vh}}
   @keyframes rise{to{opacity:1;transform:none}}
   @keyframes fade{to{opacity:1}}
   @keyframes slide{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}50.1%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
-  .intro{position:relative;z-index:1;padding:16vh 6vw 12vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
-  #aboutgrid{position:absolute;inset:0;z-index:0;display:block;pointer-events:none}
+  .intro{--orb-opacity:0;--orb-shift:0px;position:relative;z-index:1;padding:16vh 6vw 12vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;isolation:isolate}
+  .about-orbs{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:var(--orb-opacity)}
+  .about-orb{position:absolute;display:block;aspect-ratio:1;border-radius:50%;background:#000;border:1px solid #343434;transform:translate3d(0,var(--orb-shift),0);transition:background-color .8s ease,border-color .8s ease,box-shadow .8s ease,filter .8s ease}
+  .about-orb-large{width:clamp(240px,30vw,480px);right:-9vw;top:-80px;filter:blur(5px);opacity:.52}
+  .about-orb-medium{width:clamp(130px,15vw,240px);right:16vw;top:120px;filter:blur(3px);opacity:.38}
+  .about-orb-small{width:clamp(44px,5vw,68px);right:32vw;top:178px;filter:blur(.6px);opacity:.92}
+  .intro.is-open .about-orb-small{background:#fff;border-color:#fff;filter:blur(0);box-shadow:0 0 24px rgba(255,255,255,.18),0 0 64px rgba(255,255,255,.07)}
+  @media(max-width:680px){.about-orb-large{right:-32vw;top:-40px}.about-orb-medium{right:8vw;top:80px;opacity:.3}.about-orb-small{right:24px;top:178px}}
   .intro-inner{position:relative;z-index:1;max-width:1100px;margin:0 auto;width:100%}
   .about-eyebrow{font-family:'Poppins',var(--mono);font-size:11px;letter-spacing:.32em;color:var(--ink-3);text-transform:uppercase;margin-bottom:40px}
   .about-name{font-family:'Poppins',var(--disp);font-weight:300;line-height:1;font-size:clamp(56px,11vw,150px);letter-spacing:.02em;color:#fff;display:flex;align-items:baseline;flex-wrap:wrap;gap:0 .35em}
@@ -150,6 +163,7 @@
   .reveal.in{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){
     .reveal,.cover .title h1 span,.cover .top,.cover .sub,.cover .year,.cover .scrolldown{opacity:1!important;transform:none!important;animation:none!important}
+    .about-orb{transition:none!important}
     *{animation:none!important}
   }
 
@@ -169,7 +183,8 @@
   }
   @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none}}
 </style>
-<link rel="stylesheet" href="project-covers.css"><link rel="stylesheet" href="particle-cover.css"><link rel="stylesheet" href="poppins.css"></head>
+<link rel="stylesheet" href="project-covers.css"><link rel="stylesheet" href="poppins.css">
+<script type="module" src="sphere-cover.js"></script></head>
 <body>
 
 <nav id="nav">
@@ -183,7 +198,7 @@
 </nav>
 
 <section class="cover">
-  <canvas id="dots"></canvas>
+  <canvas id="sphere-cover" tabindex="0" aria-label="可交互的三维球体：移动鼠标或使用方向键推动球体，点击或按空格键产生脉冲"></canvas>
   <div class="vignette"></div>
   <div class="top">Design</div>
   <div class="title">
@@ -195,7 +210,11 @@
 </section>
 
 <section class="intro" id="about">
-  <canvas id="aboutgrid"></canvas>
+  <div class="about-orbs" aria-hidden="true">
+    <span class="about-orb about-orb-large"></span>
+    <span class="about-orb about-orb-medium"></span>
+    <span class="about-orb about-orb-small"></span>
+  </div>
   <div class="intro-inner">
   <button class="about-trigger reveal" id="aboutTrigger" aria-expanded="false" aria-controls="aboutFold">
     <span class="at-label">个人介绍 <span class="at-en">/ About</span></span>
@@ -251,39 +270,25 @@
   [...word].forEach((c,i)=>{const s=document.createElement('span');s.textContent=c;s.style.animationDelay=(0.25+i*0.06)+'s';h.appendChild(s)});
 })();
 
-/* about-section proximity scale grid */
+/* about: softly continue the hero's sphere language, then fade on scroll */
 (function(){
-  const cv=document.getElementById('aboutgrid');if(!cv)return;
-  const ctx=cv.getContext('2d');const host=document.getElementById('about');
+  const host=document.getElementById('about');
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  let W,H,DPR,cols,rows,pts=[];
-  const GAP=26,R=1.4,MAXR=5.8,RADIUS=160,PUSH=18;
-  let mx=-9999,my=-9999,active=false;
-  function build(){
-    DPR=Math.min(devicePixelRatio||1,2);
-    const w=host.clientWidth,h=host.clientHeight;
-    W=cv.width=w*DPR;H=cv.height=h*DPR;cv.style.width=w+'px';cv.style.height=h+'px';
-    ctx.setTransform(DPR,0,0,DPR,0,0);
-    cols=Math.ceil(w/GAP)+1;rows=Math.ceil(h/GAP)+1;pts=[];
-    for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){pts.push({ox:x*GAP,oy:y*GAP,x:x*GAP,y:y*GAP,vx:0,vy:0,r:R})}
+  const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
+  let ticking=false;
+  function update(){
+    ticking=false;
+    const rect=host.getBoundingClientRect();
+    const enter=clamp((innerHeight-rect.top)/(innerHeight*.65),0,1);
+    const leave=clamp(rect.bottom/(innerHeight*.35),0,1);
+    const drift=reduce?0:clamp(-rect.top/(innerHeight*1.2),0,1)*-56;
+    host.style.setProperty('--orb-opacity',(enter*leave).toFixed(3));
+    host.style.setProperty('--orb-shift',drift.toFixed(2)+'px');
   }
-  build();addEventListener('resize',build);addEventListener('load',build);setTimeout(build,400);
-  host.addEventListener('mousemove',e=>{const r=host.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;active=true});
-  host.addEventListener('mouseleave',()=>{active=false;mx=-9999;my=-9999});
-  function frame(){
-    ctx.clearRect(0,0,W,H);
-    for(const p of pts){
-      const dx=p.ox-mx,dy=p.oy-my,d=Math.hypot(dx,dy)||1;
-      let target=R,tx=p.ox,ty=p.oy;
-      if(active&&d<RADIUS){const t=1-d/RADIUS;target=R+(MAXR-R)*(t*t);const push=PUSH*(t*t);tx=p.ox+(dx/d)*push;ty=p.oy+(dy/d)*push}
-      p.vx=(p.vx+(tx-p.x)*0.12)*0.78;p.vy=(p.vy+(ty-p.y)*0.12)*0.78;p.x+=p.vx;p.y+=p.vy;
-      p.r+=(target-p.r)*0.18;
-      const lum=(p.r-R)/(MAXR-R),c=120+lum*135,a=0.10+lum*0.62;
-      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba('+c+','+c+','+(c+10)+','+a+')';ctx.fill();
-    }
-    requestAnimationFrame(frame);
-  }
-  if(reduce){for(const p of pts){ctx.beginPath();ctx.arc(p.x,p.y,R,0,Math.PI*2);ctx.fillStyle='rgba(120,120,130,.12)';ctx.fill()}}else frame();
+  function requestTick(){if(!ticking){ticking=true;requestAnimationFrame(update)}}
+  addEventListener('scroll',requestTick,{passive:true});
+  addEventListener('resize',requestTick,{passive:true});
+  update();
 })();
 
 const nav=document.getElementById('nav');
@@ -293,26 +298,26 @@ addEventListener('scroll',()=>{nav.classList.toggle('show',scrollY>innerHeight*0
 (function(){
   const btn=document.getElementById('aboutTrigger');
   const fold=document.getElementById('aboutFold');
+  const host=document.getElementById('about');
   if(!btn||!fold)return;
   let open=false;
   btn.addEventListener('click',()=>{
     open=!open;
     btn.classList.toggle('open',open);
     fold.classList.toggle('open',open);
+    host.classList.toggle('is-open',open);
     btn.setAttribute('aria-expanded',open);
     if(open){
       fold.style.height=fold.scrollHeight+'px';
       // release to auto after transition so it reflows on resize
       fold.addEventListener('transitionend',function te(e){
-        if(e.propertyName==='height'){fold.style.height='auto';fold.removeEventListener('transitionend',te);
-          dispatchEvent(new Event('resize'));}  // rebuild about grid at new height
+        if(e.propertyName==='height'){fold.style.height='auto';fold.removeEventListener('transitionend',te)}
       });
     }else{
       fold.style.height=fold.scrollHeight+'px';  // from auto → fixed, then to 0
       requestAnimationFrame(()=>{fold.style.height='0px'});
       fold.addEventListener('transitionend',function te(e){
-        if(e.propertyName==='height'){fold.removeEventListener('transitionend',te);
-          dispatchEvent(new Event('resize'));}
+        if(e.propertyName==='height')fold.removeEventListener('transitionend',te)
       });
     }
   });
@@ -327,7 +332,6 @@ const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.tar
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 setTimeout(()=>document.querySelectorAll('.reveal:not(.in)').forEach(el=>{const r=el.getBoundingClientRect();if(r.top<innerHeight*1.2)el.classList.add('in')}),1200);
 </script>
-<script src="particle-cover.js"></script>
 <script src="card-particles.js"></script>
 <script src="cursor-trail.js"></script>
 </body>

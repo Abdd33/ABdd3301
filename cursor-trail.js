@@ -12,7 +12,7 @@
       margin:0;padding:0;border:0;background:transparent;contain:layout style paint}
     #qjm-cursor-trail>span{position:absolute;left:0;top:0;display:block;
       margin:0;padding:0;border:0;border-radius:50%;pointer-events:none!important;
-      background:#e3f0ff;opacity:0;box-shadow:0 0 5px rgba(214,234,255,.18);
+      background:#eeeeee;opacity:0;box-shadow:0 0 5px rgba(255,255,255,.16);
       will-change:transform,opacity}
     @media(prefers-reduced-motion:reduce),(hover:none),(pointer:coarse){
       #qjm-cursor-trail{display:none!important}
@@ -29,7 +29,7 @@
     const size = 4.2 - i * .22;
     element.style.width = `${size}px`;
     element.style.height = `${size}px`;
-    if (i < 3) element.style.background = '#f2f7ff';
+    if (i < 3) element.style.background = '#ffffff';
     layer.appendChild(element);
     return { element, x: 0, y: 0, opacity: .5 * (1 - i / 14) };
   });
