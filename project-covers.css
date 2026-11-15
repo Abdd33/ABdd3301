@@ -1,3 +1,128 @@
+/* ===== 个人项目 · Image Accordion 封面交互展示 ===== */
+/* 数据来自 portfolio-data.js（window.PORTFOLIO），由 image-accordion.js 渲染 */
+
+.pacc{
+  max-width:1480px;margin:0 auto;padding:40px 6vw 72px;
+  display:flex;gap:8px;height:clamp(420px,72vh,660px);
+}
+.pacc-item{
+  position:relative;flex:1 1 0;min-width:0;display:block;overflow:hidden;
+  border-radius:10px;border:1px solid #262626;background:#101010;color:#ededed;text-decoration:none;
+  transition:flex-grow .75s cubic-bezier(.22,1,.36,1),border-color .4s ease;
+}
+.pacc-item img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+  filter:grayscale(.55) brightness(.72) saturate(.85);transform:scale(1.05);
+  transition:filter .6s ease,transform .9s cubic-bezier(.22,1,.36,1);
+}
+.pacc-shade{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(9,9,9,.06) 40%,rgba(9,9,9,.55) 78%,rgba(9,9,9,.82) 100%);
+  transition:opacity .5s ease,background .5s ease;
+}
+
+/* 收起态：描边大编号 + 竖排英文标题 */
+.pacc-collapsed{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  padding:0 0 22px;gap:14px;pointer-events:none;
+  transition:opacity .35s ease;
+}
+.pacc-num{
+  font-family:'Poppins','JetBrains Mono',monospace;font-weight:900;font-size:clamp(28px,3.2vw,44px);line-height:.9;
+  color:transparent;-webkit-text-stroke:1.5px #555555;letter-spacing:-.02em;
+  transition:-webkit-text-stroke-color .4s ease;
+}
+.pacc-vt{
+  writing-mode:vertical-rl;font-family:'Poppins','JetBrains Mono',monospace;font-size:10.5px;
+  letter-spacing:.22em;text-transform:uppercase;color:#8a8a8a;white-space:nowrap;
+  max-height:42%;overflow:hidden;
+}
+
+/* 展开态：完整信息层 */
+.pacc-info{
+  position:absolute;left:0;right:0;bottom:0;padding:26px 26px 24px;max-width:400px;
+  opacity:0;transform:translateY(14px);
+  transition:opacity .45s ease .16s,transform .55s cubic-bezier(.22,1,.36,1) .16s;
+  pointer-events:none;
+}
+.pacc-inum{
+  display:block;font-family:'Poppins','JetBrains Mono',monospace;font-weight:900;font-size:15px;
+  letter-spacing:.1em;color:#8a8a8a;margin-bottom:10px;
+}
+.pacc-info h3{
+  font-family:'Poppins','Archivo','Noto Sans SC',sans-serif;font-weight:800;
+  font-size:clamp(19px,1.9vw,27px);line-height:1.08;letter-spacing:-.01em;color:#ffffff;margin:0 0 8px;
+  overflow-wrap:anywhere;
+}
+.pacc-zh{font-size:14px;line-height:1.6;color:#d9d9d9;margin:0 0 6px;font-weight:400}
+.pacc-tag{
+  font-family:'Poppins','JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:#9a9a9a;margin:0 0 16px;
+}
+.pacc-go{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:'Poppins','JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;color:#ededed;
+  border:1px solid #3a3a3a;border-radius:100px;padding:10px 18px;transition:background .3s,color .3s,border-color .3s;
+  background:rgba(9,9,9,.35);backdrop-filter:blur(6px);
+}
+.pacc-go .ar{transition:transform .3s}
+.pacc-go:hover{background:#ffffff;color:#090909;border-color:#ffffff}
+.pacc-go:hover .ar{transform:translateX(3px)}
+
+/* 键盘聚焦 / 移动端激活 → 展开 */
+.pacc-item:focus-visible,.pacc-item.on{flex-grow:3.4;border-color:#3d3d3d}
+.pacc-item:focus-visible img,.pacc-item.on img{
+  filter:grayscale(0) brightness(.94) saturate(1);transform:scale(1);
+}
+.pacc-item:focus-visible .pacc-num,.pacc-item.on .pacc-num{-webkit-text-stroke-color:#999999}
+.pacc-item:focus-visible .pacc-collapsed,.pacc-item.on .pacc-collapsed{opacity:0}
+.pacc-item:focus-visible .pacc-info,.pacc-item.on .pacc-info{
+  opacity:1;transform:translateY(0);pointer-events:auto;
+}
+
+/* 鼠标悬停 → 展开（仅精确指针设备，避免触屏残留 hover） */
+@media(hover:hover) and (pointer:fine){
+  .pacc-item:hover{flex-grow:3.4;border-color:#3d3d3d}
+  .pacc-item:hover img{filter:grayscale(0) brightness(.94) saturate(1);transform:scale(1)}
+  .pacc-item:hover .pacc-num{-webkit-text-stroke-color:#999999}
+  .pacc-item:hover .pacc-collapsed{opacity:0}
+  .pacc-item:hover .pacc-info{opacity:1;transform:translateY(0);pointer-events:auto}
+  /* 悬停容器时，压暗未展开的条目 */
+  .pacc:hover .pacc-item:not(:hover):not(:focus-visible) img{filter:grayscale(.8) brightness(.5) saturate(.8)}
+}
+.pacc-item:focus-visible{outline:2px solid #cfcfcf;outline-offset:3px}
+
+/* 入场：进入视口时逐条上浮 */
+.pacc-item{opacity:0;transform:translateY(26px)}
+.pacc.in .pacc-item{animation:pacc-rise .8s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--i)*75ms)}
+@keyframes pacc-rise{to{opacity:1;transform:none}}
+
+/* 移动端：纵向手风琴，第一次点开展开，第二次点击进入 */
+@media(max-width:880px){
+  .pacc{flex-direction:column;height:auto;gap:10px;padding:28px 6vw 48px}
+  .pacc-item{flex:none;height:92px;transition:height .65s cubic-bezier(.22,1,.36,1),border-color .4s ease}
+  .pacc-item.on{height:min(118vw,460px)}
+  .pacc-collapsed{flex-direction:row;align-items:center;justify-content:flex-start;padding:0 20px;gap:16px}
+  .pacc-vt{writing-mode:horizontal-tb;max-height:none;overflow:hidden;text-overflow:ellipsis}
+  .pacc-info{padding:20px 20px 18px}
+}
+
+/* 减少动态效果：全部等宽、信息常显、无动画 */
+@media(prefers-reduced-motion:reduce){
+  .pacc{height:auto;flex-wrap:wrap}
+  .pacc-item{flex:1 1 220px;height:300px;transition:none;opacity:1;transform:none;animation:none!important}
+  .pacc-item img{transition:none;filter:grayscale(.2) brightness(.85);transform:none}
+  .pacc-collapsed{display:none}
+  .pacc-info{opacity:1;transform:none;transition:none;pointer-events:auto;position:absolute}
+}
+
+/* noscript 降级：纯链接列表 */
+.pacc-noscript{max-width:1480px;margin:0 auto;padding:24px 6vw 56px;display:flex;flex-direction:column;gap:10px}
+.pacc-noscript a{color:#ededed;font-size:15px;border-bottom:1px solid #292929;padding:10px 2px}
+.pacc-noscript a span{color:#656565;font-family:'JetBrains Mono',monospace;font-size:11px;margin-right:12px}
+
+
+/* ===== 原项目卡片网格（保留在手风琴下方） ===== */
 .project-cover-grid{max-width:1480px;margin:0 auto;padding:32px 6vw 40px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:44px 28px}
 .project-cover{display:block;position:relative;min-width:0;color:#ededed;text-decoration:none;border-radius:8px;transform:perspective(1000px) translateY(0) rotateX(0) rotateY(0);transition:transform .45s cubic-bezier(.22,1,.36,1);--rx:0deg;--ry:0deg}
 .project-cover-image{position:relative;isolation:isolate;aspect-ratio:16/9;overflow:hidden;border:1px solid #333333;border-radius:6px;background:#121212;transition:transform .35s,border-color .25s,box-shadow .3s}
@@ -19,3 +144,21 @@
 .card-particles{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;mix-blend-mode:screen;opacity:0;transition:opacity .3s}
 .project-cover[data-particles="active"] .card-particles{opacity:1}
 .project-cover-image{user-select:none;-webkit-user-select:none}.project-cover-image img{-webkit-user-drag:none}
+
+/* ===== 卡片网格折叠块 ===== */
+.grid-toggle{
+  display:flex;align-items:center;justify-content:space-between;width:100%;
+  max-width:1480px;margin:0 auto;padding:26px 6vw;
+  background:none;border:none;border-top:1px solid #1b1b1b;cursor:pointer;
+  font-family:inherit;color:#a3a3a3;transition:color .3s;
+}
+.grid-toggle:hover{color:#ededed}
+.grid-toggle:focus-visible{outline:2px solid #cfcfcf;outline-offset:-2px}
+.gt-label{font-family:'Poppins','Archivo','Noto Sans SC',sans-serif;font-weight:700;font-size:17px;letter-spacing:.02em;color:#ededed}
+.gt-en{font-family:'Poppins','JetBrains Mono',monospace;font-weight:400;font-size:11px;letter-spacing:.14em;color:#656565;text-transform:uppercase}
+.gt-right{display:inline-flex;align-items:center;gap:14px}
+.gt-count{font-family:'Poppins','JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:#656565}
+.gt-arrow{display:inline-block;font-size:14px;transition:transform .5s cubic-bezier(.22,1,.36,1);color:#a3a3a3}
+.grid-toggle[aria-expanded="true"] .gt-arrow{transform:rotate(180deg)}
+.grid-fold{overflow:hidden;opacity:1;transition:height .7s cubic-bezier(.2,.7,.2,1),opacity .5s ease}
+@media(prefers-reduced-motion:reduce){.grid-fold{transition:none}.gt-arrow{transition:none}}
