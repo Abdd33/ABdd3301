@@ -10,6 +10,7 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const dialog = $('pageDialog'), canvas = $('pageCanvas'), image = $('pageImage');
   const scroll = $('readerScroll'), select = $('pageSelect');
+  const pageLink = $('pageLink');
   const cache = new Map(), dockCards = [];
   const dockTrack = $('dockTrack'), dockScroller = $('dockScroller');
   dockTrack.style.setProperty('--page-count', pages.length);
@@ -127,6 +128,7 @@
     const page = pages[index];
     dialog.setAttribute('aria-label', `${project.en} · ${page.title}`);
     $('pageNote').textContent = page.note || '';
+    if (pageLink) pageLink.hidden = index + 1 !== Number(pageLink.dataset.page);
     $('currentPage').textContent = pad(index + 1); select.value = String(index);
     $('previousPage').disabled = index === 0; $('nextPage').disabled = index === pages.length - 1;
     dockCards.forEach((card, i) => {

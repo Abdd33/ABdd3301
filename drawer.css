@@ -21,6 +21,7 @@
 .page-actions select[hidden]{display:none}
 .page-actions .arrow-button{width:28px;height:28px;font-size:15px}
 .page-actions .return-button{height:28px;padding:0 11px;font-size:10px;margin-left:3px}
+.page-actions .page-link{display:inline-flex;align-items:center;white-space:nowrap;color:var(--accent)}
 .reader-dock{--thumb-width:clamp(112px,9.5vw,168px);position:relative;z-index:3;height:72px;pointer-events:none}
 .dock-scroller{position:absolute;bottom:0;left:0;right:0;height:190px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#363f4d transparent;pointer-events:none}
 .dock-scroller::-webkit-scrollbar{height:4px}
