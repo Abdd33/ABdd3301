@@ -65,8 +65,12 @@
   .about-name{font-family:'Poppins',var(--disp);font-weight:300;line-height:1;font-size:clamp(56px,11vw,150px);letter-spacing:.02em;color:#fff;display:flex;align-items:baseline;flex-wrap:wrap;gap:0 .35em}
   .about-name .en{font-family:'Poppins',var(--disp);font-weight:300;font-size:.28em;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase}
   .about-lead{font-size:clamp(16px,1.9vw,21px);color:var(--ink-2);max-width:640px;margin-top:48px;font-weight:300;line-height:1.85}
-  .about-lead em{font-style:normal;color:#fff;font-weight:400}
-  .about-meta{margin-top:64px;max-width:560px;border-top:1px solid var(--line-soft)}
+  .about-details{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,3.5vw,54px);margin-top:40px}
+  .about-details>section{border-top:1px solid var(--line);padding-top:16px}
+  .about-details h3{font-size:18px;line-height:1.55;font-weight:700;margin:0 0 10px}
+  .about-details p{margin:0;color:var(--ink-2);font-size:15px;line-height:1.9;overflow-wrap:break-word}
+  @media(max-width:840px){.about-details{grid-template-columns:1fr;gap:24px;max-width:640px}}
+  .about-meta{margin-top:40px;max-width:560px;border-top:1px solid var(--line-soft)}
   .about-meta .meta-row{display:flex;gap:28px;padding:18px 2px;border-bottom:1px solid var(--line-soft)}
   .about-meta .ml{font-family:'Poppins',var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase;min-width:64px;padding-top:3px}
   .about-meta .mv{font-size:15px;color:var(--ink);font-weight:300}
@@ -224,13 +228,27 @@
   <div class="about-eyebrow">交互与体验设计师 · UX &amp; Interaction Designer</div>
   <h2 class="about-name">乔嘉美<span class="en">Jiamei&nbsp;Qiao</span></h2>
   <p class="about-lead">
-    关注 <em>复杂场景中的交互与体验设计</em>。从无人驾驶出行、车队运营到 AI 影游社区，
-    通过用户研究、信息架构与界面设计，让信息更清晰、操作更连贯、协作更顺畅。
+    乔嘉美，来自江苏南京，东南大学硕士研究生，工业设计专业。在东大车辆工程系开展研究工作，科研方向是感性工学与数据驱动设计。
   </p>
 
+  <div class="about-details">
+    <section>
+      <h3>项目作品</h3>
+      <p>重点关注 Robotaxi 出行体验以及车队管理云平台设计，跨 C 端和 B 端两类场景。此外还探索了 AIGC 创作社区与汽车多角色协同设计平台等方向，建立了相关领域，尤其是智能出行方面的业务洞察与思考。</p>
+    </section>
+    <section>
+      <h3>实习经历</h3>
+      <p>曾在百度实习，期间参与面向海外市场的 AIGC 互动内容平台设计，同时进行内容体验端与内容创作端的交互设计，并参与 AI 创作工具的试用与反馈，积累了内容消费与创作两类场景的体验设计经验。</p>
+    </section>
+    <section>
+      <h3>个人能力</h3>
+      <p>已搭建全链路 AI 设计工作流，运用 SKILLS、Agent 等多种大模型能力辅助设计工作。具备 Python、MATLAB、Qt 等编程与前端界面开发能力，熟练使用 Figma 制作交互原型，掌握 3D 建模渲染与 AIGC 视频创作。</p>
+    </section>
+  </div>
+
   <div class="about-meta">
-    <div class="meta-row"><span class="ml">教育</span><span class="mv">东南大学 · 工业设计工程 硕士在读</span></div>
-    <div class="meta-row"><span class="ml">方向</span><span class="mv">智能出行 · B 端体验 · AI 产品设计</span></div>
+    <div class="meta-row"><span class="ml">教育</span><span class="mv">东南大学 · 工业设计 硕士在读</span></div>
+    <div class="meta-row"><span class="ml">方向</span><span class="mv">智能出行 · 多端体验 · AI 产品设计</span></div>
     <div class="meta-row"><span class="ml">小红书</span><span class="mv">独立绘画账号 · 5,000+ 关注</span></div>
   </div>
   </div>
