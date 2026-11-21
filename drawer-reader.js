@@ -18,19 +18,13 @@
   let animations = [], writeHash = true;
 
   const prototypePanel = $('prototypePanel');
-  let updatePrototype;
   if (prototypePanel) {
     const compact = matchMedia('(max-width: 900px)');
-    const launcher = $('openPrototype'), frame = $('prototypeFrame');
+    const launcher = $('openPrototype');
     const toggle = $('togglePrototype');
-    let collapsed = false;
-    const loadPrototype = () => {
-      if (!frame.hasAttribute('src')) frame.src = frame.dataset.src;
-    };
-    updatePrototype = () => {
-      const pageNumber = current + 1;
-      const available = pageNumber >= 11 && pageNumber <= 18;
-      const inline = available && !compact.matches;
+    let collapsed = true;
+    const updatePrototype = () => {
+      const inline = !compact.matches;
       dialog.classList.toggle('with-prototype', inline);
       dialog.classList.toggle('prototype-collapsed', inline && collapsed);
       prototypePanel.inert = inline && collapsed;
@@ -38,12 +32,11 @@
       toggle.setAttribute('aria-expanded', String(!collapsed));
       toggle.title = collapsed ? '展开原型' : '收起原型';
       toggle.setAttribute('aria-label', toggle.title);
-      launcher.hidden = !available || inline;
+      launcher.hidden = inline;
       if (inline) {
         if (prototypePanel.matches(':modal')) prototypePanel.close();
         prototypePanel.open = true;
-        loadPrototype();
-      } else if (!available || !prototypePanel.matches(':modal')) {
+      } else if (!prototypePanel.matches(':modal')) {
         prototypePanel.close();
       }
     };
@@ -54,7 +47,6 @@
     launcher.addEventListener('click', () => {
       prototypePanel.showModal();
       $('closePrototype').focus();
-      loadPrototype();
     });
     $('closePrototype').addEventListener('click', () => prototypePanel.close());
     prototypePanel.addEventListener('keydown', event => {
@@ -65,6 +57,7 @@
       }
     });
     compact.addEventListener('change', updatePrototype);
+    updatePrototype();
   }
 
   $('totalPages').textContent = pad(pages.length);
@@ -155,7 +148,6 @@
     image.src = prepared.src; image.width = pages[index].width; image.height = pages[index].height;
     image.alt = `${project.en} · ${pages[index].title}，第 ${index + 1} 页，共 ${pages.length} 页`;
     current = index; freshOpening = false; canvas.style.visibility = 'visible';
-    updatePrototype?.();
     scroll.scrollTo({ top: 0, left: 0, behavior: 'instant' }); details(index, updateHash);
     canvas.dataset.phase = 'transition';
     if (animate) {
