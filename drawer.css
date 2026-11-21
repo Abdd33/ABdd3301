@@ -54,6 +54,50 @@
 .reader-scroll:has(.page-canvas.is-tall){scrollbar-gutter:stable both-edges}
 .page-canvas.is-tall img{width:100%;max-height:none}
 .page-canvas img.outgoing-page{max-height:none;max-width:none}
+
+.reader-dialog.with-prototype[open] {
+  grid-template-columns: minmax(0, 1fr) clamp(280px, 26vw, 480px);
+}
+.with-prototype .reader-scroll { padding-inline: clamp(16px, 2vw, 40px); }
+.with-prototype .reader-footer { grid-column: 1 / -1; }
+.prototype-panel {
+  position: static;
+  margin: 26px 20px 26px 0;
+  padding: 0;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+  max-width: none;
+  max-height: none;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--base);
+  color: var(--ink);
+  overflow: hidden;
+}
+.prototype-panel[open] { display: grid; grid-template-rows: auto minmax(0, 1fr); }
+.prototype-tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.prototype-tools a:hover { color: var(--ink); }
+.prototype-panel iframe { width: 100%; height: 100%; border: 0; }
+.prototype-panel:not(:modal) #closePrototype { display: none; }
+.prototype-panel:modal {
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  width: 100%;
+  height: 100dvh;
+  padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  border: 0;
+  border-radius: 0;
+}
 @media(max-width:680px){
   .reader-footer{height:112px;padding:0 12px}
   .reader-toolbar{gap:8px;height:40px}

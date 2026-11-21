@@ -17,6 +17,44 @@
   let interruptLoad = null, failedTarget = null, freshOpening = true;
   let animations = [], writeHash = true;
 
+  const prototypePanel = $('prototypePanel');
+  let updatePrototype;
+  if (prototypePanel) {
+    const compact = matchMedia('(max-width: 900px)');
+    const launcher = $('openPrototype'), frame = $('prototypeFrame');
+    const loadPrototype = () => {
+      if (!frame.hasAttribute('src')) frame.src = frame.dataset.src;
+    };
+    updatePrototype = () => {
+      const pageNumber = current + 1;
+      const available = pageNumber >= 11 && pageNumber <= 18;
+      const inline = available && !compact.matches;
+      dialog.classList.toggle('with-prototype', inline);
+      launcher.hidden = !available || inline;
+      if (inline) {
+        if (prototypePanel.matches(':modal')) prototypePanel.close();
+        prototypePanel.open = true;
+        loadPrototype();
+      } else if (!available || !prototypePanel.matches(':modal')) {
+        prototypePanel.close();
+      }
+    };
+    launcher.addEventListener('click', () => {
+      prototypePanel.showModal();
+      $('closePrototype').focus();
+      loadPrototype();
+    });
+    $('closePrototype').addEventListener('click', () => prototypePanel.close());
+    prototypePanel.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && prototypePanel.matches(':modal')) {
+        event.preventDefault();
+        prototypePanel.close();
+        event.stopPropagation();
+      }
+    });
+    compact.addEventListener('change', updatePrototype);
+  }
+
   $('totalPages').textContent = pad(pages.length);
 
   pages.forEach((page, index) => {
@@ -105,6 +143,7 @@
     image.src = prepared.src; image.width = pages[index].width; image.height = pages[index].height;
     image.alt = `${project.en} · ${pages[index].title}，第 ${index + 1} 页，共 ${pages.length} 页`;
     current = index; freshOpening = false; canvas.style.visibility = 'visible';
+    updatePrototype?.();
     scroll.scrollTo({ top: 0, left: 0, behavior: 'instant' }); details(index, updateHash);
     canvas.dataset.phase = 'transition';
     if (animate) {
@@ -198,7 +237,7 @@
     location.assign('index.html#work');
   });
   addEventListener('keydown', event => {
-    if (!dialog.open || event.altKey || event.ctrlKey || event.metaKey || /^(SELECT|INPUT|TEXTAREA)$/.test(event.target.tagName)) return;
+    if (!dialog.open || prototypePanel?.matches(':modal') || event.altKey || event.ctrlKey || event.metaKey || /^(SELECT|INPUT|TEXTAREA)$/.test(event.target.tagName)) return;
     if (event.key === 'ArrowRight') { event.preventDefault(); go(1); }
     else if (event.key === 'ArrowLeft') { event.preventDefault(); go(-1); }
     else if (event.key === 'Home') { event.preventDefault(); requestPage(0); }
