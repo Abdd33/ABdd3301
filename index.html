@@ -64,12 +64,13 @@
   .about-eyebrow{font-family:'Poppins',var(--mono);font-size:11px;letter-spacing:.32em;color:var(--ink-3);text-transform:uppercase;margin-bottom:40px}
   .about-name{font-family:'Poppins',var(--disp);font-weight:300;line-height:1;font-size:clamp(56px,11vw,150px);letter-spacing:.02em;color:#fff;display:flex;align-items:baseline;flex-wrap:wrap;gap:0 .35em}
   .about-name .en{font-family:'Poppins',var(--disp);font-weight:300;font-size:.28em;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase}
-  .about-lead{font-size:clamp(16px,1.9vw,21px);color:var(--ink-2);max-width:640px;margin-top:48px;font-weight:300;line-height:1.85}
-  .about-details{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,3.5vw,54px);margin-top:40px}
+  .about-lead,.about-details{max-width:640px}
+  .about-lead,.about-details p{font-size:14px;line-height:1.9;color:var(--ink-2);overflow-wrap:break-word}
+  .about-lead{margin:32px 0 0}
+  .about-details{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;margin-top:28px}
   .about-details>section{border-top:1px solid var(--line);padding-top:16px}
-  .about-details h3{font-size:18px;line-height:1.55;font-weight:700;margin:0 0 10px}
-  .about-details p{margin:0;color:var(--ink-2);font-size:15px;line-height:1.9;overflow-wrap:break-word}
-  @media(max-width:840px){.about-details{grid-template-columns:1fr;gap:24px;max-width:640px}}
+  .about-details h3{font-size:16px;line-height:1.55;font-weight:700;margin:0 0 8px}
+  .about-details p{margin:0}
   .about-meta{margin-top:40px;max-width:560px;border-top:1px solid var(--line-soft)}
   .about-meta .meta-row{display:flex;gap:28px;padding:18px 2px;border-bottom:1px solid var(--line-soft)}
   .about-meta .ml{font-family:'Poppins',var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase;min-width:64px;padding-top:3px}
