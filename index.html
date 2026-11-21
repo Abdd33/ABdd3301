@@ -60,11 +60,27 @@
   .about-orb-small{width:clamp(44px,5vw,68px);right:32vw;top:178px;filter:blur(.6px);opacity:.92}
   .intro.is-open .about-orb-small{background:#fff;border-color:#fff;filter:blur(0);box-shadow:0 0 24px rgba(255,255,255,.18),0 0 64px rgba(255,255,255,.07)}
   @media(max-width:680px){.about-orb-large{right:-32vw;top:-40px}.about-orb-medium{right:8vw;top:80px;opacity:.3}.about-orb-small{right:24px;top:178px}}
+  @media(min-width:1050px){
+    .intro.is-open .about-orbs{
+      --page-edge:max(6vw,calc((100% - 1100px)/2));
+      inset:40% var(--page-edge) auto calc(var(--page-edge) + 680px);
+      aspect-ratio:1;
+    }
+    .intro.is-open .about-orb{
+      background:radial-gradient(circle at 31% 24%,#616164 0%,#38383b 22%,#18181a 49%,#09090a 73%,#111113 100%);
+      border-color:#373739;box-shadow:inset 1px 1px 3px #ffffff1c;
+    }
+    .intro.is-open .about-orb-large{width:70%;top:9%;right:4%;opacity:.85;filter:none}
+    .intro.is-open .about-orb-medium{width:31%;top:64%;right:64%;opacity:.58;filter:blur(1px)}
+    .intro.is-open .about-orb-small{width:13%;top:11%;right:79%;opacity:.9;filter:none;
+      background:radial-gradient(circle at 30% 24%,#eee,#a4a4a6 32%,#545457 66%,#242426 96%)}
+  }
+  @media(max-width:1049px){.intro.is-open .about-orbs{display:none}}
   .intro-inner{position:relative;z-index:1;max-width:1100px;margin:0 auto;width:100%}
   .about-eyebrow{font-family:'Poppins',var(--mono);font-size:11px;letter-spacing:.32em;color:var(--ink-3);text-transform:uppercase;margin-bottom:40px}
   .about-name{font-family:'Poppins',var(--disp);font-weight:300;line-height:1;font-size:clamp(56px,11vw,150px);letter-spacing:.02em;color:#fff;display:flex;align-items:baseline;flex-wrap:wrap;gap:0 .35em}
   .about-name .en{font-family:'Poppins',var(--disp);font-weight:300;font-size:.28em;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase}
-  .about-lead,.about-details{max-width:960px}
+  .about-lead,.about-details{max-width:640px}
   .about-lead,.about-details p{font-size:16px;line-height:1.9;color:var(--ink-2);overflow-wrap:break-word}
   .about-lead{margin:32px 0 0}
   .about-details{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;margin-top:24px}
