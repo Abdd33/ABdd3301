@@ -52,8 +52,8 @@
       const drift = reduced.matches ? 0 : (isSphere ? .006 : .012);
       x += Math.sin(time*.38+i)*drift;
       y += Math.cos(time*.29+i)*drift;
-      // Focus on the large middle sphere. Near and distant silhouettes soften with depth.
-      ctx.filter = layer.z === 0 ? 'none' : 'blur(' + (Math.abs(layer.z)*pixels*.012) + 'px)';
+      // Keep the dust in focus and soften each sphere according to its depth.
+      ctx.filter = isSphere ? `blur(${pixels * (.006 + Math.abs(layer.z) * .008)}px)` : 'none';
       ctx.beginPath();
       ctx.arc(x, y, isSphere ? layer.radius*scale : 1.3*scale/size, 0, Math.PI*2);
       ctx.fillStyle = isSphere ? '#000' : 'rgba(190,190,190,.55)';
