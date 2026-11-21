@@ -22,6 +22,8 @@
   if (prototypePanel) {
     const compact = matchMedia('(max-width: 900px)');
     const launcher = $('openPrototype'), frame = $('prototypeFrame');
+    const toggle = $('togglePrototype');
+    let collapsed = false;
     const loadPrototype = () => {
       if (!frame.hasAttribute('src')) frame.src = frame.dataset.src;
     };
@@ -30,6 +32,12 @@
       const available = pageNumber >= 11 && pageNumber <= 18;
       const inline = available && !compact.matches;
       dialog.classList.toggle('with-prototype', inline);
+      dialog.classList.toggle('prototype-collapsed', inline && collapsed);
+      prototypePanel.inert = inline && collapsed;
+      toggle.hidden = !inline;
+      toggle.setAttribute('aria-expanded', String(!collapsed));
+      toggle.title = collapsed ? '展开原型' : '收起原型';
+      toggle.setAttribute('aria-label', toggle.title);
       launcher.hidden = !available || inline;
       if (inline) {
         if (prototypePanel.matches(':modal')) prototypePanel.close();
@@ -39,6 +47,10 @@
         prototypePanel.close();
       }
     };
+    toggle.addEventListener('click', () => {
+      collapsed = !collapsed;
+      updatePrototype();
+    });
     launcher.addEventListener('click', () => {
       prototypePanel.showModal();
       $('closePrototype').focus();
