@@ -58,22 +58,23 @@
   .about-orb-large{width:clamp(240px,30vw,480px);right:-9vw;top:-80px;filter:blur(5px);opacity:.52}
   .about-orb-medium{width:clamp(130px,15vw,240px);right:16vw;top:120px;filter:blur(3px);opacity:.38}
   .about-orb-small{width:clamp(44px,5vw,68px);right:32vw;top:178px;filter:blur(.6px);opacity:.92}
-  .intro.is-open .about-orb-small{background:#fff;border-color:#fff;filter:blur(0);box-shadow:0 0 24px rgba(255,255,255,.18),0 0 64px rgba(255,255,255,.07)}
+  .about-orbs canvas{display:none}
   @media(max-width:680px){.about-orb-large{right:-32vw;top:-40px}.about-orb-medium{right:8vw;top:80px;opacity:.3}.about-orb-small{right:24px;top:178px}}
   @media(min-width:1050px){
     .intro.is-open .about-orbs{
       --page-edge:max(6vw,calc((100% - 1100px)/2));
       inset:40% var(--page-edge) auto calc(var(--page-edge) + 680px);
-      aspect-ratio:1;
+      aspect-ratio:1;z-index:2;
     }
     .intro.is-open .about-orb{
-      background:radial-gradient(circle at 31% 24%,#616164 0%,#38383b 22%,#18181a 49%,#09090a 73%,#111113 100%);
-      border-color:#373739;box-shadow:inset 1px 1px 3px #ffffff1c;
+      background:#000;border-color:#3d3d3d;
     }
     .intro.is-open .about-orb-large{width:70%;top:9%;right:4%;opacity:.85;filter:none}
     .intro.is-open .about-orb-medium{width:31%;top:64%;right:64%;opacity:.58;filter:blur(1px)}
-    .intro.is-open .about-orb-small{width:13%;top:11%;right:79%;opacity:.9;filter:none;
-      background:radial-gradient(circle at 30% 24%,#eee,#a4a4a6 32%,#545457 66%,#242426 96%)}
+    .intro.is-open .about-orb-small{width:13%;top:11%;right:79%;opacity:.9;filter:blur(2px)}
+    .intro.is-open .about-orbs.ready .about-orb{display:none}
+    .intro.is-open .about-orbs.ready canvas{display:block;width:100%;height:100%;pointer-events:auto;cursor:crosshair;touch-action:pan-y}
+    .about-orbs canvas:focus-visible{outline:1px solid #555;outline-offset:2px}
   }
   @media(max-width:1049px){.intro.is-open .about-orbs{display:none}}
   .intro-inner{position:relative;z-index:1;max-width:1100px;margin:0 auto;width:100%}
@@ -227,10 +228,11 @@
 </section>
 
 <section class="intro" id="about">
-  <div class="about-orbs" aria-hidden="true">
+  <div class="about-orbs">
     <span class="about-orb about-orb-large"></span>
     <span class="about-orb about-orb-medium"></span>
     <span class="about-orb about-orb-small"></span>
+    <canvas tabindex="0" role="img" aria-label="黑色球体。移动鼠标或使用方向键推动球体，点击或按空格扩散。"></canvas>
   </div>
   <div class="intro-inner">
   <button class="about-trigger reveal" id="aboutTrigger" aria-expanded="false" aria-controls="aboutFold">
@@ -298,6 +300,7 @@
 </footer>
 
 <script src="portfolio-data.js"></script>
+<script defer src="about-orbs.js"></script>
 <script>
 (function(){
   const word="PORTFOLIO";const h=document.getElementById('bigtitle');
