@@ -17,7 +17,6 @@
   let interruptLoad = null, failedTarget = null, freshOpening = true;
   let animations = [], writeHash = true;
 
-  $('readerProject').textContent = project.en;
   $('totalPages').textContent = pad(pages.length);
 
   pages.forEach((page, index) => {
@@ -83,7 +82,8 @@
   }
   function details(index, updateHash) {
     const page = pages[index];
-    $('pageTitle').textContent = page.title; $('pageNote').textContent = page.note || '';
+    dialog.setAttribute('aria-label', `${project.en} · ${page.title}`);
+    $('pageNote').textContent = page.note || '';
     $('currentPage').textContent = pad(index + 1); select.value = String(index);
     $('previousPage').disabled = index === 0; $('nextPage').disabled = index === pages.length - 1;
     dockCards.forEach((card, i) => {
@@ -151,7 +151,7 @@
     if (!dialog.open) {
       freshOpening = true; canvas.style.visibility = 'hidden';
       document.body.classList.add('reader-open'); dialog.showModal();
-      $('closeReader').focus();
+      scroll.focus({ preventScroll: true });
       if (!reduce.matches) dialog.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 240, easing: 'ease-out' });
     }
     requestPage(index, updateHash);
@@ -189,7 +189,6 @@
   $('nextPage').addEventListener('click', () => go(1));
   select.addEventListener('change', () => requestPage(Number(select.value)));
   $('retryImage').addEventListener('click', () => requestPage(failedTarget ?? Math.max(0, current)));
-  $('closeReader').addEventListener('click', () => dialog.close());
   $('fileReturn').addEventListener('click', () => dialog.close());
   dialog.addEventListener('close', () => {
     if (dialog.open) return; // An earlier close event must not reset a reopened reader.
