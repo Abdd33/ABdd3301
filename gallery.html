@@ -160,6 +160,12 @@ footer{position:relative;z-index:1;padding:2.4rem clamp(1.5rem,8vw,9rem);display
   font-size:2rem;cursor:pointer;transition:color .3s;line-height:1}
 .lb-close:hover{color:var(--gild)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.piece{opacity:1;transform:none}}
+.sort-tools{display:flex;align-items:center;flex-wrap:wrap;gap:.6rem;margin-bottom:1.2rem}
+.sort-tools p{color:var(--ink-mute);font-size:.85rem}
+.sort-handle{position:absolute;top:.5rem;right:.5rem;border:1px solid var(--paper-line);border-radius:3px;background:var(--paper);color:var(--ink);padding:.4rem .65rem;font:inherit;cursor:grab;touch-action:none;user-select:none}
+.piece.sort-source{opacity:.45}
+.piece.sort-before{outline:2px solid var(--gild-soft);box-shadow:0 -4px var(--gild-soft)}
+.piece.sort-after{outline:2px solid var(--gild-soft);box-shadow:0 4px var(--gild-soft)}
 </style>
 <link rel="stylesheet" href="poppins.css"></head>
 <body>
@@ -200,6 +206,12 @@ footer{position:relative;z-index:1;padding:2.4rem clamp(1.5rem,8vw,9rem);display
       <button class="chip" data-val="f2"><span class="lang-zh">平面创造-2号</span><span class="lang-en">2D · Folder 02</span></button>
       <button class="chip" data-val="t1"><span class="lang-zh">三维作品-1号（创意设计）</span><span class="lang-en">3D · Folder 01</span></button>
     </div>
+  </div>
+  <div class="sort-tools">
+    <button type="button" class="chip" id="sortStart"><span class="lang-zh">调整顺序</span><span class="lang-en">Reorder</span></button>
+    <button type="button" class="chip" id="sortSave" hidden><span class="lang-zh">保存顺序</span><span class="lang-en">Save order</span></button>
+    <button type="button" class="chip" id="sortCancel" hidden><span class="lang-zh">取消</span><span class="lang-en">Cancel</span></button>
+    <p id="sortStatus" role="status"><span class="lang-zh"></span><span class="lang-en"></span></p>
   </div>
   <div class="grid" id="grid"></div>
 </section>
@@ -254,22 +266,147 @@ const works=[
   {cat:"t1",ar:"1.778",img:"images/35.png"}
 ];
 const grid=document.getElementById('grid');
+const filters=[...document.querySelectorAll('.filter-row .chip')];
+const sortStart=document.getElementById('sortStart');
+const sortSave=document.getElementById('sortSave');
+const sortCancel=document.getElementById('sortCancel');
+const sortStatus=document.getElementById('sortStatus');
+const orderKey='ABdd3301.gallery.order.v1';
+let editing=false;
+let drag=null;
+let marked=null;
+let savedOrder=loadOrder();
+
+function loadOrder(){
+  const remaining=new Map(works.map(work=>[work.img,work]));
+  const restored=[];
+  try{
+    const ids=JSON.parse(localStorage.getItem(orderKey));
+    if(Array.isArray(ids)){
+      for(const id of ids){
+        if(!remaining.has(id))continue;
+        restored.push(remaining.get(id));
+        remaining.delete(id);
+      }
+    }
+  }catch{}
+  return [...restored,...remaining.values()];
+}
+function status(zh,en){
+  sortStatus.querySelector('.lang-zh').textContent=zh;
+  sortStatus.querySelector('.lang-en').textContent=en;
+}
+function applyFilter(){
+  const category=filters.find(chip=>chip.classList.contains('active')).dataset.val;
+  for(const piece of grid.children){
+    piece.classList.toggle('hide',!editing&&category!=='all'&&piece.dataset.cat!==category);
+  }
+}
+function setEditing(active){
+  editing=active;
+  sortStart.hidden=active;
+  sortSave.hidden=sortCancel.hidden=!active;
+  filters.forEach(chip=>{chip.disabled=active;});
+  grid.querySelectorAll('.sort-handle').forEach(handle=>{handle.hidden=!active;});
+  applyFilter();
+  (active?sortSave:sortStart).focus();
+}
+function movePiece(piece,target,after){
+  const handle=piece.querySelector('.sort-handle');
+  const focused=document.activeElement===handle;
+  if(after)target.after(piece);
+  else target.before(piece);
+  if(focused)handle.focus({preventScroll:true});
+}
+function clearMarker(){
+  marked?.classList.remove('sort-before','sort-after');
+  marked=null;
+}
+function dropPosition(event){
+  const target=document.elementFromPoint(event.clientX,event.clientY)?.closest('.piece');
+  if(!target||target===drag.piece||target.parentElement!==grid)return null;
+  const bounds=target.getBoundingClientRect();
+  return {target,after:event.clientY>bounds.top+bounds.height/2};
+}
+grid.addEventListener('pointerdown',event=>{
+  const handle=event.target.closest('.sort-handle');
+  if(!editing||!handle||drag||event.button!==0)return;
+  drag={piece:handle.closest('.piece'),id:event.pointerId};
+  drag.piece.classList.add('sort-source');
+  handle.setPointerCapture(event.pointerId);
+});
+grid.addEventListener('pointermove',event=>{
+  if(drag?.id!==event.pointerId)return;
+  clearMarker();
+  const position=dropPosition(event);
+  if(!position)return;
+  marked=position.target;
+  marked.classList.add(position.after?'sort-after':'sort-before');
+});
+function finishDrag(event){
+  if(drag?.id!==event.pointerId)return;
+  const position=event.type==='pointerup'?dropPosition(event):null;
+  const {piece}=drag;
+  drag=null;
+  piece.classList.remove('sort-source');
+  clearMarker();
+  if(editing&&position)movePiece(piece,position.target,position.after);
+}
+for(const event of ['pointerup','pointercancel','lostpointercapture'])grid.addEventListener(event,finishDrag);
+grid.addEventListener('keydown',event=>{
+  const handle=event.target.closest('.sort-handle');
+  if(!editing||!handle||!['ArrowUp','ArrowDown'].includes(event.key))return;
+  event.preventDefault();
+  const piece=handle.closest('.piece');
+  const after=event.key==='ArrowDown';
+  const target=after?piece.nextElementSibling:piece.previousElementSibling;
+  if(target)movePiece(piece,target,after);
+});
+sortStart.addEventListener('click',()=>{
+  setEditing(true);
+  status('拖动作品右上角的把手，或选中把手后按 ↑ / ↓。','Drag a handle, or focus it and press ↑ / ↓.');
+});
+sortSave.addEventListener('click',()=>{
+  const byImage=new Map(works.map(work=>[work.img,work]));
+  const ids=Array.from(grid.children,piece=>piece.dataset.image);
+  try{
+    localStorage.setItem(orderKey,JSON.stringify(ids));
+  }catch{
+    status('保存失败，请检查浏览器的存储设置。','Could not save the order. Check your browser storage settings.');
+    return;
+  }
+  savedOrder=ids.map(id=>byImage.get(id));
+  setEditing(false);
+  status('顺序已保存到当前浏览器。','Order saved in this browser.');
+});
+sortCancel.addEventListener('click',()=>{
+  const pieces=new Map(Array.from(grid.children,piece=>[piece.dataset.image,piece]));
+  savedOrder.forEach(work=>grid.append(pieces.get(work.img)));
+  setEditing(false);
+  status('已取消本次调整。','Changes discarded.');
+});
 function render(){
   grid.innerHTML='';
-  works.forEach(w=>{
+  savedOrder.forEach((w,index)=>{
     const el=document.createElement('div');
-    el.className='piece';el.dataset.cat=w.cat;
+    el.className='piece';el.dataset.cat=w.cat;el.dataset.image=w.img;
     el.innerHTML=`<img class="piece-img" src="${w.img}" alt="" loading="lazy" style="aspect-ratio:${w.ar}">`;
-    el.addEventListener('click',()=>openLB(w));
+    const handle=document.createElement('button');
+    handle.type='button';
+    handle.className='sort-handle';
+    handle.hidden=true;
+    handle.textContent='⠿';
+    handle.setAttribute('aria-label','移动作品 / Move artwork '+(index+1));
+    el.appendChild(handle);
+    el.addEventListener('click',()=>{if(!editing)openLB(w);});
     grid.appendChild(el);
   });
   requestAnimationFrame(()=>document.querySelectorAll('.piece').forEach((p,i)=>setTimeout(()=>p.classList.add('show'),i*55)));
 }
-document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
-  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+filters.forEach(c=>c.addEventListener('click',()=>{
+  filters.forEach(x=>x.classList.remove('active'));
   c.classList.add('active');
-  const v=c.dataset.val;
-  document.querySelectorAll('.piece').forEach(p=>p.classList.toggle('hide',!(v==='all'||p.dataset.cat===v)));
+  applyFilter();
 }));
 const lb=document.getElementById('lightbox'),lbImg=document.getElementById('lbImg'),lbCap=document.getElementById('lbCap');
 function openLB(w){
