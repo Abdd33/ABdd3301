@@ -100,10 +100,10 @@ header{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:
 .chip:hover{border-color:var(--gild-soft);color:var(--ink)}
 .chip.active{background:var(--ink);border-color:var(--ink);color:var(--paper);font-weight:600}
 
-.grid{columns:3;column-gap:1.4rem}
-@media(max-width:900px){.grid{columns:2}}
-@media(max-width:560px){.grid{columns:1}}
-.piece{break-inside:avoid;margin-bottom:1.4rem;position:relative;cursor:pointer;
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.4rem;align-items:start}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.grid{grid-template-columns:minmax(0,1fr)}}
+.piece{position:relative;cursor:pointer;
   opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s;
   background:#fff;border:1px solid var(--paper-line);overflow:hidden;
   box-shadow:0 1px 2px rgba(0,0,0,.04)}
@@ -164,8 +164,10 @@ footer{position:relative;z-index:1;padding:2.4rem clamp(1.5rem,8vw,9rem);display
 .sort-tools p{color:var(--ink-mute);font-size:.85rem}
 .sort-handle{position:absolute;top:.5rem;right:.5rem;border:1px solid var(--paper-line);border-radius:3px;background:var(--paper);color:var(--ink);padding:.4rem .65rem;font:inherit;cursor:grab;touch-action:none;user-select:none}
 .piece.sort-source{opacity:.45}
-.piece.sort-before{outline:2px solid var(--gild-soft);box-shadow:0 -4px var(--gild-soft)}
-.piece.sort-after{outline:2px solid var(--gild-soft);box-shadow:0 4px var(--gild-soft)}
+.piece.sort-target{outline:3px solid var(--gild-soft);outline-offset:2px}
+.grid.is-sorting .piece{transition:none}
+.grid.is-sorting .piece-img{aspect-ratio:4/3!important;object-fit:contain;background:var(--paper-2);transform:none}
+.sort-handle{z-index:1;min-width:44px;min-height:44px}
 </style>
 <link rel="stylesheet" href="poppins.css"></head>
 <body>
@@ -304,6 +306,7 @@ function applyFilter(){
 }
 function setEditing(active){
   editing=active;
+  grid.classList.toggle('is-sorting',active);
   sortStart.hidden=active;
   sortSave.hidden=sortCancel.hidden=!active;
   filters.forEach(chip=>{chip.disabled=active;});
@@ -311,22 +314,23 @@ function setEditing(active){
   applyFilter();
   (active?sortSave:sortStart).focus();
 }
-function movePiece(piece,target,after){
+function movePiece(piece,target){
   const handle=piece.querySelector('.sort-handle');
   const focused=document.activeElement===handle;
-  if(after)target.after(piece);
-  else target.before(piece);
+  const placeholder=document.createComment('swap');
+  piece.replaceWith(placeholder);
+  target.replaceWith(piece);
+  placeholder.replaceWith(target);
   if(focused)handle.focus({preventScroll:true});
 }
 function clearMarker(){
-  marked?.classList.remove('sort-before','sort-after');
+  marked?.classList.remove('sort-target');
   marked=null;
 }
 function dropPosition(event){
   const target=document.elementFromPoint(event.clientX,event.clientY)?.closest('.piece');
   if(!target||target===drag.piece||target.parentElement!==grid)return null;
-  const bounds=target.getBoundingClientRect();
-  return {target,after:event.clientY>bounds.top+bounds.height/2};
+  return target;
 }
 grid.addEventListener('pointerdown',event=>{
   const handle=event.target.closest('.sort-handle');
@@ -340,8 +344,8 @@ grid.addEventListener('pointermove',event=>{
   clearMarker();
   const position=dropPosition(event);
   if(!position)return;
-  marked=position.target;
-  marked.classList.add(position.after?'sort-after':'sort-before');
+  marked=position;
+  marked.classList.add('sort-target');
 });
 function finishDrag(event){
   if(drag?.id!==event.pointerId)return;
@@ -350,7 +354,7 @@ function finishDrag(event){
   drag=null;
   piece.classList.remove('sort-source');
   clearMarker();
-  if(editing&&position)movePiece(piece,position.target,position.after);
+  if(editing&&position)movePiece(piece,position);
 }
 for(const event of ['pointerup','pointercancel','lostpointercapture'])grid.addEventListener(event,finishDrag);
 grid.addEventListener('keydown',event=>{
@@ -360,11 +364,11 @@ grid.addEventListener('keydown',event=>{
   const piece=handle.closest('.piece');
   const after=event.key==='ArrowDown';
   const target=after?piece.nextElementSibling:piece.previousElementSibling;
-  if(target)movePiece(piece,target,after);
+  if(target)movePiece(piece,target);
 });
 sortStart.addEventListener('click',()=>{
   setEditing(true);
-  status('拖动作品右上角的把手，或选中把手后按 ↑ / ↓。','Drag a handle, or focus it and press ↑ / ↓.');
+  status('拖动右上角的把手到另一件作品上，两件作品会互换位置。也可聚焦把手后按 ↑ / ↓。','Drag a handle onto another artwork to swap their positions, or focus a handle and press ↑ / ↓.');
 });
 sortSave.addEventListener('click',()=>{
   const byImage=new Map(works.map(work=>[work.img,work]));
