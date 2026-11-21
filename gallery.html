@@ -109,8 +109,7 @@ header{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:
   box-shadow:0 1px 2px rgba(0,0,0,.04)}
 .piece.show{opacity:1;transform:translateY(0)}
 .piece.hide{display:none}
-.piece-img{width:100%;display:block;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
-.piece:hover .piece-img{transform:scale(1.035)}
+.piece-img{display:block;width:100%;height:auto;object-fit:contain}
 .piece:hover 
 section.dark{position:relative;z-index:1;padding:clamp(4rem,10vw,9rem) clamp(1.5rem,8vw,9rem)}
 .about-wrap{display:grid;grid-template-columns:1fr 1.3fr;gap:clamp(2rem,6vw,5rem);align-items:center}
@@ -166,7 +165,6 @@ footer{position:relative;z-index:1;padding:2.4rem clamp(1.5rem,8vw,9rem);display
 .piece.sort-source{opacity:.45}
 .piece.sort-target{outline:3px solid var(--gild-soft);outline-offset:2px}
 .grid.is-sorting .piece{transition:none}
-.grid.is-sorting .piece-img{aspect-ratio:4/3!important;object-fit:contain;background:var(--paper-2);transform:none}
 .sort-handle{z-index:1;min-width:44px;min-height:44px}
 </style>
 <link rel="stylesheet" href="poppins.css"></head>
@@ -394,7 +392,7 @@ function render(){
   savedOrder.forEach((w,index)=>{
     const el=document.createElement('div');
     el.className='piece';el.dataset.cat=w.cat;el.dataset.image=w.img;
-    el.innerHTML=`<img class="piece-img" src="${w.img}" alt="" loading="lazy" style="aspect-ratio:${w.ar}">`;
+    el.innerHTML=`<img class="piece-img" src="${w.img}" alt="" loading="lazy" style="aspect-ratio:auto ${w.ar}">`;
     const handle=document.createElement('button');
     handle.type='button';
     handle.className='sort-handle';
